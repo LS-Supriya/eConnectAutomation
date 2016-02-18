@@ -482,9 +482,9 @@ Id_SalesRepPage_EnableTimeStamp_DropDown = leanswift_customerlogin_default_times
 Id_HomePage_HomeIcon_Button = startDiv
 Xpath_HomePage_ApplicationsArea_Text1 = //body[@class='inforApplicationPadding']
 Xpath_HomePage_ApplicationsArea_Text = //div[@class='gvFillAbsolute']
-Xpath_HomePage_MenuListFirstItem_Text = //div[@id='MyCanvas']/div/div/div[1]/div[10]/div[2]/div/div/ul/li[1]
+Xpath_HomePage_MenuListFirstItem_Text = //span[@class='gvWidgetHeaderTitle']/following::a[contains(text(),'SMS - Sales and Marketing Automation')]
 Xpath_HomePage_Search_TextBox = //input[@type='text' and @placeholder='Search']
-Xpath_HomePage_SearchIcon_Button = //div[@id='MyCanvas']/div/div/div[1]/div[10]/div[1]/div/div/div/button[2]
+Xpath_HomePage_SearchIcon_Button = //button[@class='inforTriggerButton inforSearchButton gvM3MenuSearchButtons' and @type='button']
 Xpath_HomePage_CustOpenTool_Link = //span[@tag='OIS300']
 Id_OpenToolPage_OrderNum_TextBox = W1OBKV
 Xpath_ProductAvailabilityPage_CollapsedFilter_Button = //button[@class='expandCollapse inforExpandButton closed']

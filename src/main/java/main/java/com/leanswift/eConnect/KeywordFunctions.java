@@ -48,6 +48,7 @@ public class KeywordFunctions {
 		Properties property = new Properties();
 		InputStream is = null;
 		try {
+			//is = new FileInputStream(ExecutionEngine.getPath("ObjectRepository")+"/OR.txt");
 			is = new FileInputStream(ExecutionEngine.getPath("ObjectRepository")+"/OR.txt");
 			property.load(is);
 		} catch(IOException e) {
@@ -656,6 +657,7 @@ public class KeywordFunctions {
 			locator = locatorValue(this.getLocatorType(locatorName), this.getLocatorValue(locatorName));
 			WebElement element = driver.findElement(locator);
 			Constants.tempList.add(element.getText());
+			System.out.println(Constants.tempList.get(Constants.tempList.size()-1));
 		} catch (Exception e) {
 			Constants.isProceed = false;
 			System.out.println(e.getMessage());
@@ -830,6 +832,7 @@ public class KeywordFunctions {
 	   driver.navigate().refresh();
    }
    
+   //click ok button in the alert window thrown by a browser
    public void acceptAlert() {
 	    try {
 	        wait.until(ExpectedConditions.alertIsPresent());
