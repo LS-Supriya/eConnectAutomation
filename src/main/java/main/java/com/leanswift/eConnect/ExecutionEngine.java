@@ -87,8 +87,9 @@ public class  ExecutionEngine {
 				//--Repeating the execution for each test case
 				for (int tsRow = 1; tsRow < excelFns.getRowCount(); tsRow++) {
 					
-					//--Reading test case name and test run mode from test suite sheet
+					//--Reading test case name, Description and test run mode from test suite sheet
 					String testCaseName = excelFns.getValueFromCell(Constants.testCasesNameCol, tsRow);
+					String testCaseDesc = excelFns.getValueFromCell(Constants.testCasesDescCol, tsRow);
 					String tsRunMode = excelFns.getValueFromCell(Constants.testCasesRunCol, tsRow);
 						
 					//--Checking if test case run mode is yes
@@ -137,8 +138,16 @@ public class  ExecutionEngine {
 										execEng.executeReflectionMethod(Constants.keywordFnsClassQualifier, methodName, paramListObj);
 								}
 									
-								//--Writing test case name, time stamp, test result, screenshot path for tests
+								/* Ignore the Test Suites which contains 'FormFilling' as part of it's name and test Case which contains
+								 * 'Setup" as it's name. As the files with this naming conventions has Test cases for Initial Configurations.
+								 * These Test Cases/Test Suites will be ignored while publishing Test Results.
+								*/
+								if(!(testSuiteName.contains("FormFilling")))
+								if(!(testCaseName.contains("Setup")))
+								{
+									//--Writing test case name, description, time stamp, test result, screenshot path for tests
 								Constants.testResultArr[tdRow-1][Constants.resultArrTestCaseNameCol] = testCaseName;
+								Constants.testResultArr[tdRow-1][Constants.resultArrTestCaseDescCol] = testCaseDesc;
 								Constants.testResultArr[tdRow-1][Constants.resultArrTimeStampCol] = dateFormat.format(new Date());
 								if(Constants.isProceed) {
 									//--Setting blank value to screenshot column if test run passed
@@ -148,6 +157,7 @@ public class  ExecutionEngine {
 									//--Making a call to capture sheet shot function if test run failed
 									Constants.testResultArr[tdRow-1][Constants.resultArrTestResultCol] = Constants.testResultFail;
 									Constants.testResultArr[tdRow-1][Constants.resultArrScreenShotCol] = captureScreenShot(testCaseName, testResultFolder);
+								}
 								}
 								System.out.println("------------------------------END TEST - "+testSuiteName+" / "+testCaseName+"------------------------------");
 								System.out.println("\n\n");
@@ -170,6 +180,8 @@ public class  ExecutionEngine {
 					
 				//--Writing test results in results workbook
 				String[][] tunedTestResultArr = testResultList.toArray(new String[][]{});
+				//Ignore Test Suites which contains 'FormFilling' as part of it's name from publishing test results in excel.
+				if(!(testSuiteName.contains("FormFilling")))
 				excelFns.writeTestResult(testResultFolder, testSuiteName, tunedTestResultArr);
 			}
 			excelFns.openSheet(getPath("testScriptsPath"), Constants.driverWorkbookName, Constants.testSuitesSheetName);
@@ -314,7 +326,7 @@ public class  ExecutionEngine {
 			htmlHeader="<html><head><meta charset='utf-8'><title>Test Execution Report</title></head>";
 			
 			//--Setting up HTML body content
-			htmlBody="<body><h1 align='center'>eConnect Automation Report</h1><table align='center' border='1' style='width:75%'><thead><tr><th>SNo.</th><th>Test Case Name</th><th>Time Stamp</th><th>Status</th><th>Failure Screenshot Location</th></thead>";
+			htmlBody="<body><h1 align='center'>eConnect Automation Report</h1><table align='center' border='1' style='width:75%'><thead><tr><th>SNo.</th><th>Test Case Name</th><th>Test Case Description</th><th>Time Stamp</th><th>Status</th><th>Failure Screenshot Location</th></thead>";
 			htmlFooter="</body></html>";
 			for(int arrRow=0; arrRow<testResultArr.length; arrRow++) {
 				int printarrRow = arrRow+1;
